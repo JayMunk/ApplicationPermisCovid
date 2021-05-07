@@ -1,0 +1,20 @@
+{
+    "/serverPermis":{
+        "target":"http://localhost:9191",
+        "secure":false,
+        "changeOrigin":true,
+        "logLevel":"debug",
+        "pathRewrite":{
+            "^/serverPermis":""
+        }
+    },
+    "/serverMinistere":{
+        "target":"http://localhost:9393",
+        "secure":false,
+        "changeOrigin":true,
+        "logLevel":"debug",
+        "pathRewrite":{
+            "^/server1":""
+        }
+    }
+}
