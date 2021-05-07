@@ -15,7 +15,7 @@ public class MinistereController {
     MinistereService service;
 
     @GetMapping("/ministere/{nassm}/{prenom}/{nom}/{age}/{ville}")
-    public boolean checkCitoyenValidity(@PathVariable("nassm") String nassm, @PathVariable("prenom") String prenom, @PathVariable("nom")String nom,@PathVariable("age") int age,@PathVariable("ville") String ville) {
+    public boolean checkCitoyenValidity(@PathVariable("nassm") String nassm, @PathVariable("prenom") String prenom, @PathVariable("nom") String nom, @PathVariable("age") int age, @PathVariable("ville") String ville) {
         return service.validerInfoCitoyen(nassm, prenom, nom, age, ville);
     }
 
