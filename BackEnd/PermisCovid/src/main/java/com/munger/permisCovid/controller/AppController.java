@@ -4,6 +4,8 @@ import com.munger.permisCovid.model.Citoyen;
 import com.munger.permisCovid.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class AppController {
     //login, createUser
     @GetMapping("/citoyens/{email}/{password}")
     public Citoyen login(@PathVariable("email") String email, @PathVariable("password") String password) {
-        return  service.login(email, password);
+        return service.login(email, password);
     }
 
     //createChild, createUser
@@ -39,14 +41,14 @@ public class AppController {
     // @RequestMapping(method = RequestMethod.POST)
     @GetMapping("/citoyens/{id}&{typePermis}")
     // public Citoyen updatePermis(@RequestParam(value="id")String id, @RequestParam(value="typePermis")String typePermis){
-    public Citoyen createPermis(@PathVariable("id") int id, @PathVariable("typePermis") String typePermis) {
+    public Citoyen createPermis(@PathVariable("id") int id, @PathVariable("typePermis") String typePermis) throws Exception {
         System.out.println("id= " + id + "// typePermis= " + typePermis);
         return service.requestPermis(id, typePermis);
     }
 
     //renewPermis
     @GetMapping("/citoyens/renew/{id}")
-     public Citoyen updatePermis(@RequestParam(value="id")int id){
+    public Citoyen updatePermis(@RequestParam(value = "id") int id) {
         return service.renewPermis(id);
     }
 
@@ -55,4 +57,16 @@ public class AppController {
     public boolean checkCitoyenValidityToRenewPermis(@PathVariable("email") String email, @PathVariable("numTelephone") String numTelephone, @PathVariable("ville") String ville) {
         return service.checkCitoyenValidityToRenewPermis(email, numTelephone, ville);
     }
+
+    @GetMapping("/citoyens&{id}&{email}")
+    public boolean sendPermisEmail(@PathVariable("id") int id, @PathVariable("email") String email) throws Exception {
+        return service.sendEmail(email, id);
+    }
+
+    @GetMapping("/citoyens&{id}")
+    public File getPDF(@PathVariable("id") int id) {
+        return service.getPDF(id);
+    }
+
+
 }

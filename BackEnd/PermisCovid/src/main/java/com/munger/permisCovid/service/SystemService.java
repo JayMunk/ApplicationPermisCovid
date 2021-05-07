@@ -4,7 +4,6 @@ import com.munger.permisCovid.model.Citoyen;
 import com.munger.permisCovid.model.Permis;
 import com.munger.permisCovid.repository.CitoyenRepository;
 import com.munger.permisCovid.repository.PermisRepository;
-import com.munger2.ministerews.service.MinistereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,7 @@ import com.itextpdf.layout.element.Paragraph;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
 
 @Service
@@ -38,12 +38,6 @@ public class SystemService {
 
     @Autowired(required = false)
     private JavaMailSender mailSender;
-
-    //@Autowired
-    // private Environment environment;
-
-    //  @Autowired
-    private MinistereService serviceMinistere;
 
     public Citoyen login(String email, String pwd) {
         return citoyenRepository.findCitoyenByEmailAndPassword(email, pwd);
@@ -65,10 +59,10 @@ public class SystemService {
 
     public boolean checkCitoyenValidityToRenewPermis(String email, String numTelephone, String ville) {
         Citoyen c1 = citoyenRepository.findCitoyenByEmailAndNumTelephoneAndVille(email, numTelephone, ville);
-        System.out.println("C1= "+c1);
+        System.out.println("C1= " + c1);
         if (c1 != null) {
             Permis p1 = permisRepository.findPermisByIdCitoyenAndAndIsVaccinatedIsFalse(c1.getIdUser());
-            System.out.println("p1= "+p1);
+            System.out.println("p1= " + p1);
             if (p1 != null) {
                 return true;
             }
@@ -76,22 +70,26 @@ public class SystemService {
         return false;
     }
 
-    public Citoyen renewPermis(int id){
+    public Citoyen renewPermis(int id) {
         Citoyen citoyen = citoyenRepository.findCitoyenByIdUser(id);
         citoyen.getPermis().renouveler();
         return citoyen;
     }
 
-    public Citoyen requestPermis(int id, String typePermis) {
+    public Citoyen requestPermis(int id, String typePermis) throws Exception {
         Citoyen citoyen = citoyenRepository.findCitoyenByIdUser(id);
         Permis p1;
         if (typePermis.equals("Vaccinated")) {
             p1 = new Permis(citoyen.getIdUser(), true, false);
             citoyen.setPermis(p1);
+            generateQR(String.valueOf(p1), id);
+            generatePDF(citoyen.getPrenom(), id);
         } else if (typePermis.equals("Tested")) {
             p1 = new Permis(citoyen.getIdUser(), false, true);
             p1.setDateExpiration(LocalDate.now().plusDays(14));
             citoyen.setPermis(p1);
+            generateQR(String.valueOf(p1), id);
+            generatePDF(citoyen.getPrenom(), id);
         }
         return citoyen;
     }
@@ -124,23 +122,20 @@ public class SystemService {
         document.close();
     }
 
-    public void sendEmail(String mailTo, String subject, String body, int id) throws Exception {
+    public boolean sendEmail(String mailTo, int id) throws Exception {
         //   String filePath = "C:/ecole(AL)/Session(6)/420-445-AL_PROGRAMMATION_DANS_UN_ENVIRONNEMENT_TRANSACTIONNEL/TP2/qr/permis";
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         helper.setTo(mailTo);
-        helper.setSubject(subject);
-        helper.setText(body);
+        helper.setSubject("Permis Covid");
+        helper.setText("Voici votre permis Covid");
         helper.addAttachment("QR CODE", new File(FILE_PATH + id + ".png"));
         helper.addAttachment("QR PDF", new File(FILE_PATH + id + ".pdf"));
 
         // helper.setCc();
-    }
-
-    public static void main(String[] args) throws Exception {
-        // generateQR("HAMR123456;TEST;2021/03/31;5142223456", 1);
-        // generatePDF("jeremie", 1);
+        Transport.send(message);
+        return true;
     }
 
     public Citoyen createUser(Citoyen c) {
@@ -151,5 +146,9 @@ public class SystemService {
         Citoyen c1 = citoyenRepository.findCitoyenByEmail(email);
         int idTuteur = c1.getIdUser();
         return citoyenRepository.findEnfantByIdTuteur(idTuteur);
+    }
+
+    public File getPDF(int id) {
+        return new File(FILE_PATH + id + ".pdf");
     }
 }

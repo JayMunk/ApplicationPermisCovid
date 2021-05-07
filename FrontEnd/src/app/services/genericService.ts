@@ -48,6 +48,18 @@ export class GenericService<T, ID> {
     return this.http.put<T>(this.url + '/renew/' + id, {});
   }
 
+  //permis
+  //getPermis
+  sendEmail(id: ID, email: string): Observable<boolean> {
+    return this.http.get<boolean>(this.url + '&' + id + '&' + email);
+  }
+
+  //permis
+  //getPermis
+  getPDF(id: ID): Observable<File> {
+    return this.http.get<File>(this.url + '&' + id);
+  }
+
 
 
   //Not use

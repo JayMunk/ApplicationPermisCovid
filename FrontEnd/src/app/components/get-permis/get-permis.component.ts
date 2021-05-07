@@ -11,11 +11,15 @@ import { PermisService } from 'src/app/services/permis.service';
 })
 export class GetPermisComponent implements OnInit {
 
-  constructor(private service: PermisService, private router: Router) { }
+  constructor(private service: PermisService, private router: Router) {
+
+  }
 
   citoyen: Citoyen;
   validMessage: string = '';
   enfants: Citoyen[];
+  emailSent: boolean;
+  pdf: File;
 
   getPermisForm = new FormGroup({
     citoyen: new FormControl('', Validators.required),
@@ -25,20 +29,35 @@ export class GetPermisComponent implements OnInit {
   ngOnInit(): void {
     this.citoyen = JSON.parse(sessionStorage.getItem("citoyen"));
     this.enfants = JSON.parse(sessionStorage.getItem("enfants"));
+    let btnEmail = document.getElementById("sendEmail");
+    btnEmail.addEventListener("click", (e: Event) => this.sendEmail());
+    let btnPDF = document.getElementById("openPDF");
+    btnPDF.addEventListener("click", (e: Event) => this.openPDF());
   }
 
-  onSubmit() {
+  sendEmail() {
     if (this.getPermisForm.valid) {
-      //si permis valide
-      //send email
-      //navigate dashboard
+      this.service.sendEmail(this.getPermisForm.get("citoyen").value, this.getPermisForm.get("email").value).subscribe((data) => {
+        this.emailSent = data
+        if (this.emailSent) {
+          this.validMessage = 'Vérifier vos courriel';
+        } else {
+          this.validMessage = 'Erreur';
+        }
+      });
+    } else {
+      this.validMessage = 'Please fill the form before submitting!';
+    }
 
-      //  this.service.save(this.signInForm.value).subscribe((data) => {
-      //    this.signInForm.reset();
-      //    console.log('passe ici');
-      //   this.router.navigateByUrl('/dashboard');
-      this.validMessage = 'good';
-      //  });
+  }
+  openPDF() {
+    if (this.getPermisForm.valid) {
+      this.service.getPDF(this.getPermisForm.get("citoyen").value).subscribe((data) => {
+        this.pdf = data;
+        sessionStorage.setItem("pdf", JSON.stringify(this.pdf));
+        window.open(sessionStorage.getItem("pdf"));
+        this.validMessage = 'good';
+      });
     } else {
       this.validMessage = 'Please fill the form before submitting!';
     }

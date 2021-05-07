@@ -9,7 +9,6 @@ import { GenericService } from './genericService';
 })
 export class PermisService extends GenericService<Citoyen, Number>{
   
-
   constructor(http: HttpClient) {
      super(http, 'http://localhost:9191/citoyens') 
     //super(http, '/serverPermis/citoyens') 
