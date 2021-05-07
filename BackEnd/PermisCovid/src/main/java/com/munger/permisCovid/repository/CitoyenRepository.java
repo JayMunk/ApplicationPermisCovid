@@ -16,9 +16,5 @@ public interface CitoyenRepository extends JpaRepository<Citoyen, Integer> {
 
     public Citoyen findCitoyenByEmailAndNumTelephoneAndVille(String email, String numTelephone, String ville);
 
-    public default Citoyen save2(Citoyen c) {
-        return new Citoyen(c.getNom(), c.getPrenom(), c.getEmail(), c.getPassword(), c.getNumAssuranceSocial(), c.getSexe(), c.getAge(), c.getNumTelephone(), c.getVille());
-    }
-
     List<Citoyen> findEnfantByIdTuteur(int id);
 }
