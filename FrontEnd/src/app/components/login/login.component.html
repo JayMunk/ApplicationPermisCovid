@@ -1,0 +1,28 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="./../../../assets/images/logo-MSSS.jpg" id="icon" alt="logo-MSSS" />
+    </div>
+
+    <!-- Sign in Form -->
+    <div class="fadeIn second">
+      <div *ngIf="validMessage != ''">
+        <h3 class="has-info">{{ validMessage }}</h3>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input type="email" id="login" class="form-control" placeholder="login" formControlName="email" />
+        <input type="password" id="password" class="form-control" placeholder="password" formControlName="password" />
+        <input type="submit" class="fadeIn third" value="Log In" />
+      </form>
+    </div>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter" class="fadeIn fourth">
+      <a class="underlineHover" href="createUser">Not a user?</a>
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn first">
+      <img
+        src="./../../../assets/images/logo-MSSS.jpg"
+        id="icon"
+        alt="logo-MSSS"
+      />
+      <h3>Recevoir le permis par courriel</h3>
+    </div>
+    <div class="fadeIn second">
+      <form [formGroup]="getPermisForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="validMessage != ''">
+          <h3 class="has-info">{{ validMessage }}</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="citoyen" Subscription Type>Choisir pour qui</label>
+          <select class="form-control" id="citoyen" formControlName="citoyen">
+            <!-- Seulement ceux qui ont un permis valide-->
+            <option value="Afganistan">all</option>
+            <option value="Afganistan">Adulte</option>
+            <option value="Afganistan">enfant1</option>
+            <option value="Afganistan">enfant2</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email addresse</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="name@example.com"
+            formControlName="email"
+          />
+        </div>
+
+        <input
+          type="submit"
+          class="fadeIn third"
+          value="Envoyer par courriel"
+        />
+      </form>
+    </div>
+  </div>
+</div>
