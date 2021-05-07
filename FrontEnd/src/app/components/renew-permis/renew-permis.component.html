@@ -1,11 +1,7 @@
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <div class="fadeIn first">
-      <img
-        src="./../../../assets/images/logo-MSSS.jpg"
-        id="icon"
-        alt="logo-MSSS"
-      />
+      <img src="./../../../assets/images/logo-MSSS.jpg" id="icon" alt="logo-MSSS" />
       <h3>Renouvellement du permis de type test</h3>
     </div>
     <div class="fadeIn second">
@@ -17,42 +13,26 @@
         <div class="form-group">
           <label for="citoyen" Subscription Type>Choisir pour qui</label>
           <select class="form-control" id="citoyen" formControlName="citoyen">
-            <!-- Seulement ceux qui ont un permis de type test-->
-            <option value="Softley">Softley</option>
-            <option value="Afganistan">enfant1</option>
-            <option value="Afganistan">enfant2</option>
+            <option [value]="citoyen.idUser">{{citoyen.prenom}}</option>
+            <!-- enfants-->
+            <option *ngFor="let enfant of enfants" [value]="enfant.idUser">
+              {{enfant.prenom}}
+            </option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="email">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            placeholder="name@example.com"
-            formControlName="email"
-          />
+          <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email" />
         </div>
         <div class="form-group">
           <label for="numTelephone">Numéro de téléphone</label>
-          <input
-            type="text"
-            class="form-control"
-            id="numTelephone"
-            placeholder="999-999-9999"
-            formControlName="numTelephone"
-          />
+          <input type="text" class="form-control" id="numTelephone" placeholder="999-999-9999"
+            formControlName="numTelephone" />
         </div>
         <div class="form-group">
           <label for="ville">Ville</label>
-          <input
-            type="text"
-            class="form-control"
-            id="ville"
-            placeholder="Ville"
-            formControlName="ville"
-          />
+          <input type="text" class="form-control" id="ville" placeholder="Ville" formControlName="ville" />
         </div>
         <input type="submit" class="fadeIn third" value="Renouveller permis" />
       </form>

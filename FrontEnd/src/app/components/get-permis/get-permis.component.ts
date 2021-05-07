@@ -11,17 +11,21 @@ import { PermisService } from 'src/app/services/permis.service';
 })
 export class GetPermisComponent implements OnInit {
 
-  constructor(private service: PermisService, private router: Router) {}
+  constructor(private service: PermisService, private router: Router) { }
 
   citoyen: Citoyen;
   validMessage: string = '';
+  enfants: Citoyen[];
 
   getPermisForm = new FormGroup({
     citoyen: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required)
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.citoyen = JSON.parse(sessionStorage.getItem("citoyen"));
+    this.enfants = JSON.parse(sessionStorage.getItem("enfants"));
+  }
 
   onSubmit() {
     if (this.getPermisForm.valid) {
@@ -29,12 +33,12 @@ export class GetPermisComponent implements OnInit {
       //send email
       //navigate dashboard
 
-    //  this.service.save(this.signInForm.value).subscribe((data) => {
-    //    this.signInForm.reset();
-    //    console.log('passe ici');
-     //   this.router.navigateByUrl('/dashboard');
-     this.validMessage = 'good';
-    //  });
+      //  this.service.save(this.signInForm.value).subscribe((data) => {
+      //    this.signInForm.reset();
+      //    console.log('passe ici');
+      //   this.router.navigateByUrl('/dashboard');
+      this.validMessage = 'good';
+      //  });
     } else {
       this.validMessage = 'Please fill the form before submitting!';
     }

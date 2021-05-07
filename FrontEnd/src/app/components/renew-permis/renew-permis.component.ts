@@ -17,6 +17,7 @@ export class RenewPermisComponent implements OnInit {
   citoyen: Citoyen;
   validMessage: string = '';
   infoValide: boolean;
+  enfants: Citoyen[];
 
   renewPermisForm = new FormGroup({
     citoyen: new FormControl('', Validators.required),
@@ -25,7 +26,10 @@ export class RenewPermisComponent implements OnInit {
     ville: new FormControl('', Validators.required),
   });
 
-  ngOnInit(): void { this.citoyen = JSON.parse(sessionStorage.getItem('citoyen')); }
+  ngOnInit(): void {
+    this.citoyen = JSON.parse(sessionStorage.getItem("citoyen"));
+    this.enfants = JSON.parse(sessionStorage.getItem("enfants"));
+  }
 
   onSubmit() {
     //citoyen = select option
@@ -35,7 +39,7 @@ export class RenewPermisComponent implements OnInit {
           this.infoValide = data;
           console.log(this.infoValide);
           if (this.infoValide) {
-            this.servicePermis.renewPermis(this.citoyen.idUser).subscribe((data) => {
+            this.servicePermis.renewPermis(this.renewPermisForm.get("citoyen").value).subscribe((data) => {
               this.citoyen = data;
               this.router.navigateByUrl('/dashboard');
               this.validMessage = 'good';

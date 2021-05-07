@@ -18,18 +18,21 @@ export class RequestPermisComponent implements OnInit {
   validMessage: string = '';
   nassm: string;
   resultRequest: string;
+  enfants: Citoyen[];
 
   requestPermisForm = new FormGroup({
     citoyen: new FormControl('', Validators.required)
   });
 
   ngOnInit(): void {
-    this.citoyen = JSON.parse(sessionStorage.getItem('citoyen'));
+    this.citoyen = JSON.parse(sessionStorage.getItem("citoyen"));
+    this.enfants = JSON.parse(sessionStorage.getItem("enfants"));
     console.log("allo " + this.citoyen.numAssuranceSocial);
 
   }
 
   onSubmit() {
+    console.log(this.requestPermisForm.value);
     if (this.requestPermisForm.valid) {
       this.validMessage = '';
       //le numero dassurance doit provenir du input et non hard coder
