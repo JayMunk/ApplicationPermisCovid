@@ -14,12 +14,12 @@ import { AuthGuard } from './services/auth.guard';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: 'dashboard', component: DashboardComponent},//, canActivate: [AuthGuard] },
-  { path: 'getPermis', component: GetPermisComponent},//, canActivate: [AuthGuard] },
-  { path: 'renewPermis', component: RenewPermisComponent},//, canActivate: [AuthGuard] },
-  { path: 'requestPermis', component: RequestPermisComponent},//, canActivate: [AuthGuard] },
+  { path: 'dashboard', component: DashboardComponent },//, canActivate: [AuthGuard] },
+  { path: 'getPermis', component: GetPermisComponent },//, canActivate: [AuthGuard] },
+  { path: 'renewPermis', component: RenewPermisComponent },//, canActivate: [AuthGuard] },
+  { path: 'requestPermis', component: RequestPermisComponent },//, canActivate: [AuthGuard] },
   { path: 'createUser', component: CreateUserComponent },
-  { path: 'createChild', component: CreateChildComponent},//, canActivate: [AuthGuard] },
+  { path: 'createChild', component: CreateChildComponent },//, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: Error404Component },
 ];

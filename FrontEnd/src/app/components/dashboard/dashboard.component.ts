@@ -23,7 +23,6 @@ export class DashboardComponent implements OnInit {
         this.enfantsTable = enfants;
         sessionStorage.setItem('enfants', JSON.stringify(this.enfantsTable));
         this.nbEnfant = enfants.length;
-        console.log(this.nbEnfant)
       }
     );
   }

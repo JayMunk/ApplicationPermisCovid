@@ -34,11 +34,9 @@ export class CreateUserComponent implements OnInit {
   onSubmit() {
     console.log(this.addUserForm.valid);
     if (this.addUserForm.get('age').value <= 16) {
-      console.log("if1");
       this.validMessage =
         'Vous devez avoir plus de 16 ans pour vous créer un compte!';
     } else if (!this.addUserForm.valid) {
-      console.log("if2");
       this.validMessage = 'Please fill the form before submitting!';
     } else {
 
@@ -46,18 +44,14 @@ export class CreateUserComponent implements OnInit {
 
       this.serviceMinistere.checkCitoyenValidity(this.citoyen.numAssuranceSocial, this.citoyen.prenom, this.citoyen.nom, this.citoyen.age, this.citoyen.ville).subscribe((data) => {
         this.citoyenValide = data;
-        console.log(this.citoyen);
-        console.log("citoyenValide : " + this.citoyenValide);
         if (data == true) {
 
           this.servicePermis.save(this.citoyen).subscribe((data) => {
             this.citoyen = data;
             this.addUserForm.reset();
-            //    console.log('passe ici');
             this.servicePermis.login(this.citoyen.email, this.citoyen.password)
               .subscribe((data) => {
                 this.citoyen = data;
-                console.log(this.citoyen);
                 if (this.citoyen != null) {
                   sessionStorage.setItem('citoyen', JSON.stringify(this.citoyen));
                   this.router.navigateByUrl('/dashboard');
@@ -69,14 +63,6 @@ export class CreateUserComponent implements OnInit {
           this.validMessage = 'Vos informations sont invalide. Contacter le ministère';
         }
       });
-
-      /*
-            this.servicePermis.save(this.addUserForm.value).subscribe((data) => {
-              this.addUserForm.reset();
-              //    console.log('passe ici');
-              this.router.navigateByUrl('/dashboard');
-              this.validMessage = 'good';
-            });*/
     }
   }
 

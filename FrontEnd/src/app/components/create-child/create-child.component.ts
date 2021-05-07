@@ -35,25 +35,20 @@ export class CreateChildComponent implements OnInit {
 
   onSubmit() {
     if (this.addChildForm.get('age').value > 16) {
-      console.log("if1");
       this.validMessage =
         'Vous devez avoir moin de 16 ans pour vous créer un compte enfant!';
     } else if (!this.addChildForm.valid) {
-      console.log("if2");
       this.validMessage = 'Please fill the form before submitting!';
     } else {
       this.setEnfantValue();
 
       this.serviceMinistere.checkCitoyenValidity(this.enfant.numAssuranceSocial, this.enfant.prenom, this.enfant.nom, this.enfant.age, this.enfant.ville).subscribe((data) => {
         this.enfantValide = data;
-        console.log(this.enfant);
-        console.log("enfantValide : " + this.enfantValide);
         if (data == true) {
 
           this.servicePermis.save(this.enfant).subscribe((data) => {
             this.enfant = data;
             this.addChildForm.reset();
-            //    console.log('passe ici');
             this.router.navigateByUrl('/dashboard');
             this.validMessage = 'good';
           });

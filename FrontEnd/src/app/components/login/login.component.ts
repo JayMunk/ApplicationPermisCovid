@@ -29,12 +29,10 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.email = this.loginForm.get('email').value;
     this.pwd = this.loginForm.get('password').value;
-    console.log(this.loginForm.get('password').value);
     if (this.loginForm.valid) {
       this.service.login(this.email, this.pwd)
         .subscribe((data) => {
           this.citoyen = data;
-          console.log(this.citoyen);
           if (this.citoyen != null) {
             sessionStorage.setItem('citoyen', JSON.stringify(this.citoyen));
             this.router.navigateByUrl('/dashboard');
@@ -48,19 +46,4 @@ export class LoginComponent implements OnInit {
       this.validMessage = 'Please fill the form before submitting!';
     }
   }
-  /** 
-    email
-    password
-    invalidLogin
-    public loginUser() {
-      this.service.login(this.email, this.password).subscribe((data)=> {
-        this.citoyen = data; sessionStorage.setItem('email', this.email);
-        if(this.citoyen !=null){
-          this.router.navigateByUrl('/dashboard',{state:this.citoyen});
-          this.invalidLogin=false;
-        }else{
-          this.invalidLogin=true;
-        }
-      })}
-      */
 }

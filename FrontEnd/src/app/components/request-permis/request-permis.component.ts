@@ -32,19 +32,17 @@ export class RequestPermisComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.requestPermisForm.value);
     if (this.requestPermisForm.valid) {
       this.validMessage = '';
-      //le numero dassurance doit provenir du input et non hard coder
       this.serviceMinistere.checkCitizenPermisValidity(this.citoyen.numAssuranceSocial).subscribe((data) => {
         this.resultRequest = data;
-        console.log("type Permis = " + this.resultRequest);
-        if(this.resultRequest== "Vaccinated"){
-          this.servicePermis.createPermis(this.citoyen.idUser,this.resultRequest);
-        }else if(this.resultRequest== "Tested"){
-          this.servicePermis.createPermis(this.citoyen.idUser,this.resultRequest).subscribe((data) => {
-            this.citoyen = data;});
-        }else if(this.resultRequest== "None"){
+        if (this.resultRequest == "Vaccinated") {
+          this.servicePermis.createPermis(this.citoyen.idUser, this.resultRequest);
+        } else if (this.resultRequest == "Tested") {
+          this.servicePermis.createPermis(this.citoyen.idUser, this.resultRequest).subscribe((data) => {
+            this.citoyen = data;
+          });
+        } else if (this.resultRequest == "None") {
           this.validMessage = 'Vous devez soit vous faire vaccinner ou tester';
         }
       })

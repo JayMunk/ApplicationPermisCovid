@@ -32,12 +32,10 @@ export class RenewPermisComponent implements OnInit {
   }
 
   onSubmit() {
-    //citoyen = select option
     if (this.renewPermisForm.valid) {
       this.servicePermis.checkCitizenValidityForRenewing(this.renewPermisForm.get("email").value, this.renewPermisForm.get("numTelephone").value, this.renewPermisForm.get("ville").value)
         .subscribe((data) => {
           this.infoValide = data;
-          console.log(this.infoValide);
           if (this.infoValide) {
             this.servicePermis.renewPermis(this.renewPermisForm.get("citoyen").value).subscribe((data) => {
               this.citoyen = data;
