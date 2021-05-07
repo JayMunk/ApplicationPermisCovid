@@ -16,8 +16,8 @@ export class PermisService extends GenericService<Citoyen, Number>{
   }
 
   public userIsLogin() {
-    let email = sessionStorage.getItem('email');
-    return email != null;
+    let citoyen = sessionStorage.getItem('citoyen');
+    return citoyen != null;
   }
 
   public logOut() {
