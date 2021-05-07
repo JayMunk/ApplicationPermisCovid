@@ -56,7 +56,7 @@ export class GetPermisComponent implements OnInit {
         this.pdf = data;
         sessionStorage.setItem("pdf", JSON.stringify(this.pdf));
         window.open(sessionStorage.getItem("pdf"));
-        this.validMessage = 'good';
+        this.validMessage = 'Le PDF est ouvert dans un nouvel onglet';
       });
     } else {
       this.validMessage = 'Please fill the form before submitting!';
