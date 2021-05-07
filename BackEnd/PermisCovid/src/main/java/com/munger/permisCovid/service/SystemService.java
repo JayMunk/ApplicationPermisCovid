@@ -59,13 +59,9 @@ public class SystemService {
 
     public boolean checkCitoyenValidityToRenewPermis(String email, String numTelephone, String ville) {
         Citoyen c1 = citoyenRepository.findCitoyenByEmailAndNumTelephoneAndVille(email, numTelephone, ville);
-        System.out.println("C1= " + c1);
         if (c1 != null) {
             Permis p1 = permisRepository.findPermisByIdCitoyenAndAndIsVaccinatedIsFalse(c1.getIdUser());
-            System.out.println("p1= " + p1);
-            if (p1 != null) {
-                return true;
-            }
+            return p1 != null;
         }
         return false;
     }
