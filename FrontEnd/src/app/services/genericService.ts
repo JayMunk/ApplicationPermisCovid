@@ -59,23 +59,4 @@ export class GenericService<T, ID> {
   getPDF(id: ID): Observable<File> {
     return this.http.get<File>(this.url + '&' + id);
   }
-
-
-
-  //Not use
-  findIdByEmail(email: string): Observable<ID> {
-    return this.http.get<ID>(this.url + '/' + email);
-  }
-  update(id: ID, t: T): Observable<T> {
-    return this.http.put<T>(this.url + '/' + id, t, {});
-  }
-  deleteById(id: ID): Observable<T> {
-    return this.http.delete<T>(this.url + '/' + id);
-  }
-  findAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.url);
-  }
-  findById(id: ID): Observable<T> {
-    return this.http.get<T>(this.url + '/' + id);
-  }
 }
